@@ -1,12 +1,17 @@
 package com.example.handi.cross.adapter;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +22,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * Created by handi.imsi on 22/08/2019.
  */
@@ -25,7 +32,8 @@ import java.util.ArrayList;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     private ArrayList<ResponseItemBlog> Mimages;
-    private Context context;
+    Context context;
+
 
     public MainAdapter(Context context,ArrayList<ResponseItemBlog> Mimages) {
         this.context = context;
@@ -40,7 +48,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(ViewHolder viewHolder,  int i) {
 
         viewHolder.tv_android.setText(Mimages.get(i).getArticleTitle());
 
@@ -48,6 +56,21 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder> {
                 .load(Mimages.get(i).getArticleImage())
                 .fit()
                 .into(viewHolder.img_android);
+
+        final String link = Mimages.get(i).getLinkblog().toString();
+
+
+        viewHolder.img_android.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View viewHolder) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+
+        });
+
+
     }
 
     @Override

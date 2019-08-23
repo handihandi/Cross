@@ -1,6 +1,8 @@
 package com.example.handi.cross.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +67,16 @@ public class CustomGridViewActivity extends BaseAdapter {
                     .fit()
                     .into(imageView);
 
+            final String link = images.get(position).getLinkProduct().toString();
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View viewHolder) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(intent);
+                }
+
+            });
 
         } else {
             grid = (View) convertView;
